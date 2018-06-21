@@ -1,0 +1,7 @@
+version: 1
+debug: true
+network:
+  type: tcp
+  address: ":5002"
+settings:
+  mode: parallel

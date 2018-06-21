@@ -1,0 +1,40 @@
+version: 1.0
+locations:
+  - name: r1vec
+    rack:
+      name: rack-1
+    board:
+      name: vec
+devices:
+  - name: read.ok
+    outputs:
+      - type: simple
+    instances:
+      - info: Reads data successfully
+        location: r1vec
+        data:
+          id: 1
+  - name: read.error
+    outputs:
+      - type: simple
+    instances:
+      - info: Always fails reading
+        location: r1vec
+        data:
+          id: 2
+  - name: write.ok
+    outputs:
+      - type: simple
+    instances:
+      - info: Writes data successfully
+        location: r1vec
+        data:
+          id: 3
+  - name: write.error
+    outputs:
+      - type: simple
+    instances:
+      - info: Always fails writing
+        location: r1vec
+        data:
+          id: 4
