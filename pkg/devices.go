@@ -15,8 +15,13 @@ var (
 	readOk = sdk.DeviceHandler{
 		Name: "read.ok",
 		Read: func(device *sdk.Device) ([]*sdk.Reading, error) {
+			stateReading, err := device.GetOutput("simple").MakeReading(stateVal)
+			if err != nil {
+				return nil, err
+			}
+
 			return []*sdk.Reading{
-				device.GetOutput("simple").MakeReading(stateVal),
+				stateReading,
 			}, nil
 		},
 	}

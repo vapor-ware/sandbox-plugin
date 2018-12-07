@@ -70,7 +70,7 @@ endif
 		--disable=gotype \
 		--tests \
 		--vendor \
-		--sort=severity \
+		--sort=path --sort=line \
 		--aggregate \
 		--deadline=5m
 
@@ -104,8 +104,9 @@ ci-build:
 ifndef HAS_GOX
 	go get -v github.com/mitchellh/gox
 endif
+	@ # We currently only use a couple of images; the built set of images can be
+	@ # updated if we ever need to support more os/arch combinations
 	gox --output="build/${PLUGIN_NAME}_{{.OS}}_{{.Arch}}" \
 		--ldflags "${LDFLAGS}" \
-		--parallel=10 \
-		--os='darwin linux' \
-		--osarch='!darwin/386 !darwin/arm !darwin/arm64'
+		--osarch='linux/amd64 darwin/amd64' \
+		github.com/vapor-ware/sandbox-plugin
