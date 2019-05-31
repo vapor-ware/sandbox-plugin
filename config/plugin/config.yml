@@ -1,7 +1,8 @@
-version: 1
-debug: true
+version: 3
+debug: false
 network:
   type: tcp
-  address: ":5002"
+  address: ":5001"
 settings:
-  mode: parallel
+  read:
+    interval: 5s
