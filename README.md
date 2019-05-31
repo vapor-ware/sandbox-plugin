@@ -14,6 +14,9 @@ The sandbox plugin is a simple plugin, or a template of one, that can be used, m
 or extended for your own use. In particular this is useful for re-creating use cases or
 bugs where it might not be as easy to do with a plugin hooked up to live hardware.
 
+See the [SDK documentation](https://synse.readthedocs.io/en/latest/sdk/intro/) for more details
+on plugins and the Synse platform.
+
 ## Using
 This repo defines a valid plugin with devices, but it is bare-bones. If you wish to use it,
 fork it and update it to your needs.

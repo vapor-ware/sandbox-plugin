@@ -1,7 +1,7 @@
 package main
 
 import (
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/vapor-ware/sandbox-plugin/pkg"
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
@@ -14,7 +14,7 @@ const (
 )
 
 func main() {
-	sdk.SetPluginMeta(
+	sdk.SetPluginInfo(
 		pluginName,
 		pluginMaintainer,
 		pluginDesc,
