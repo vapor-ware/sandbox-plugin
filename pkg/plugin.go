@@ -1,19 +1,16 @@
 package pkg
 
 import (
-	log "github.com/sirupsen/logrus"
+	log "github.com/Sirupsen/logrus"
 	"github.com/vapor-ware/synse-sdk/sdk"
 )
 
 // MakePlugin creates a new instance of the Sandbox Plugin.
 func MakePlugin() *sdk.Plugin {
-	plugin, err := sdk.NewPlugin()
-	if err != nil {
-		log.Fatal(err)
-	}
+	plugin := sdk.NewPlugin()
 
 	// Register the output types
-	if err := plugin.RegisterOutputs(
+	if err := plugin.RegisterOutputTypes(
 		&simpleOutput,
 	); err != nil {
 		log.Fatal(err)

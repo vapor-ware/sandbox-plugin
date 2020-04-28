@@ -3,7 +3,7 @@
 #
 
 PLUGIN_NAME    := sandbox
-PLUGIN_VERSION := 1.0.1
+PLUGIN_VERSION := 1.0.0
 IMAGE_NAME     := vaporio/sandbox-plugin
 
 GIT_COMMIT ?= $(shell git rev-parse --short HEAD 2> /dev/null || true)
@@ -31,40 +31,58 @@ HAS_GOX  := $(shell which gox)
 
 .PHONY: build
 build:  ## Build the plugin Go binary
-	go build -ldflags "${LDFLAGS}" -o build/plugin || exit
+	go build -ldflags "${LDFLAGS}" -o build/plugin
 
 .PHONY: clean
 clean:  ## Remove temporary files
-	go clean -v || exit
+	go clean -v
 
 .PHONY: dep
-dep:  ## Verify and tidy gomod dependencies
-	go mod verify
-	go mod tidy
+dep:  ## Ensure and prune dependencies
+ifndef HAS_DEP
+	go get -u github.com/golang/dep/cmd/dep
+endif
+	dep ensure -v
 
 .PHONY: docker
 docker:  ## Build the docker image locally
-	GO111MODULE="" docker build -f Dockerfile \
+	docker build -f Dockerfile \
 		-t $(IMAGE_NAME):latest \
-		-t $(IMAGE_NAME):local . || exit
+		-t $(IMAGE_NAME):local .
 
 .PHONY: fmt
 fmt:  ## Run goimports on all go files
-	find . -name '*.go' -not -wholename './vendor/*' | while read -r file; do goimports -w "$$file" || exit; done
+	find . -name '*.go' -not -wholename './vendor/*' | while read -r file; do goimports -w "$$file"; done
 
 .PHONY: github-tag
 github-tag:  ## Create and push a tag with the current plugin version
-	git tag -a ${PLUGIN_VERSION} -m "${PLUGIN_NAME} plugin version ${PLUGIN_VERSION}" || exit
+	git tag -a ${PLUGIN_VERSION} -m "${PLUGIN_NAME} plugin version ${PLUGIN_VERSION}"
 	git push -u origin ${PLUGIN_VERSION}
 
 .PHONY: lint
 lint:  ## Lint project source files
-	golint -set_exit_status ./pkg/... || exit
+ifndef HAS_LINT
+	go get -u github.com/alecthomas/gometalinter
+	gometalinter --install
+endif
+	@ # disable gotype: https://github.com/alecthomas/gometalinter/issues/40
+	gometalinter ./... \
+		--disable=gotype \
+		--tests \
+		--vendor \
+		--sort=path --sort=line \
+		--aggregate \
+		--deadline=5m
 
 .PHONY: setup
 setup:  ## Install the build and development dependencies and set up vendoring
-	go get -u golang.org/x/lint/golint
-	go mod init
+	go get -u github.com/alecthomas/gometalinter
+	go get -u github.com/golang/dep/cmd/dep
+	gometalinter --install
+ifeq (,$(wildcard ./Gopkg.toml))
+	dep init
+endif
+	@$(MAKE) dep
 
 .PHONY: version
 version:  ## Print the version of the plugin

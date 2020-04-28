@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/vapor-ware/synse-sdk/sdk"
-	"github.com/vapor-ware/synse-sdk/sdk/output"
 )
 
 // stateVal is a value that is written to by the writeOk handler and
@@ -15,10 +14,13 @@ var (
 	// readOk successfully reads from `stateVal`.
 	readOk = sdk.DeviceHandler{
 		Name: "read.ok",
-		Read: func(device *sdk.Device) ([]*output.Reading, error) {
-			stateReading := simpleOutput.MakeReading(stateVal)
+		Read: func(device *sdk.Device) ([]*sdk.Reading, error) {
+			stateReading, err := device.GetOutput("simple").MakeReading(stateVal)
+			if err != nil {
+				return nil, err
+			}
 
-			return []*output.Reading{
+			return []*sdk.Reading{
 				stateReading,
 			}, nil
 		},
@@ -36,7 +38,7 @@ var (
 	// readErr always returns an error when read from.
 	readErr = sdk.DeviceHandler{
 		Name: "read.error",
-		Read: func(device *sdk.Device) ([]*output.Reading, error) {
+		Read: func(device *sdk.Device) ([]*sdk.Reading, error) {
 			return nil, fmt.Errorf("some kind of read error happened -- sorry")
 		},
 	}
