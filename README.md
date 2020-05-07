@@ -18,5 +18,6 @@ See the [SDK documentation](https://synse.readthedocs.io/en/latest/sdk/intro/) f
 on plugins and the Synse platform.
 
 ## Using
+
 This repo defines a valid plugin with devices, but it is bare-bones. If you wish to use it,
 fork it and update it to your needs.
