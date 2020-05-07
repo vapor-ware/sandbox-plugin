@@ -3,7 +3,7 @@
 #
 
 PLUGIN_NAME    := sandbox
-PLUGIN_VERSION := 3.0.0
+PLUGIN_VERSION := 2.0.0
 IMAGE_NAME     := vaporio/sandbox-plugin
 BIN_NAME       := sandbox-plugin
 
