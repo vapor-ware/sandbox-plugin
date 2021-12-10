@@ -1,7 +1,7 @@
 #
 # Builder Image
 #
-FROM vaporio/foundation:bionic as builder
+FROM docker.io/vaporio/foundation:bionic as builder
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends ca-certificates
