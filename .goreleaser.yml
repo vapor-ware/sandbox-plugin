@@ -33,13 +33,11 @@ dockers:
   -
     goos: linux
     goarch: amd64
-    binaries:
-      - sandbox-plugin
     image_templates:
-      - vaporio/sandbox-plugin:{{ .Tag }}
-      - vaporio/sandbox-plugin:{{ .Major }}
-      - vaporio/sandbox-plugin:{{ .Major }}.{{ .Minor }}
-      - vaporio/sandbox-plugin:latest
+      - docker.io/vaporio/sandbox-plugin:{{ .Tag }}
+      - docker.io/vaporio/sandbox-plugin:{{ .Major }}
+      - docker.io/vaporio/sandbox-plugin:{{ .Major }}.{{ .Minor }}
+      - docker.io/vaporio/sandbox-plugin:latest
     build_flag_templates:
       - "--label=org.label-schema.version={{ .Version }}"
       - "--label=org.label-schema.build-date={{ .Date }}"
